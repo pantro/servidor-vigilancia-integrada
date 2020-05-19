@@ -17,6 +17,6 @@ app.use(require('./routes/denunciations'));
 app.use(require('./routes/inspections'));
 
 // Starting the server
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), '0.0.0.0', () => {
   console.log(`Server on port ${app.get('port')}`);
 });
