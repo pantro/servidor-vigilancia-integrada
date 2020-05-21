@@ -1,20 +1,18 @@
 const mysql = require('mysql');
+//Requiere dotenv
+require('dotenv').config({ path:'variables.env' });
 
-const mysqlConnection = mysql.createConnection({
+// Set database connection credentials
+const config = {
   host: 'chirimacha-main.cojvkfkjmqcg.us-west-2.rds.amazonaws.com',
   user: 'masterUser',
   password: 'ChagasShiny1!1',
   database: 'CHAGAS_GENERAL',
   multipleStatements: true
-});
+};
 
-mysqlConnection.connect(function (err) {
-  if (err) {
-    console.error(err);
-    return;
-  } else {
-    console.log('db is connected');
-  }
-});
+// Create a MySQL pool
+const pool = mysql.createPool(config);
 
-module.exports = mysqlConnection;
+// Export the pool
+module.exports = pool;

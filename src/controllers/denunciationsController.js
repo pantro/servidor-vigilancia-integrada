@@ -3,25 +3,33 @@ const router = express.Router();
 
 const mysqlConnection  = require('../config/database.js');
 
-// GET todas las denuncias
-router.get('/api/acceder/', (req, res) => {
-  mysqlConnection.query('SELECT * FROM USUARIOS', (err, rows, fields) => {
-    if(!err) {
-      res.json(rows);
-    } else {
-      console.log(err);
+//Obtener todas las denuncias
+exports.GetDenunciations = async (req, res) => {
+	try {
+		await mysqlConnection.query('SELECT * FROM DENUNCIAS', (err, rows, fields) => {
+		    if(!err) {
+		      res.json(rows);
+		    } else {
+		      console.log(err);
+		    }
+  		});
+	} catch (error) {
+        console.log(error);
+        res.status(400).send('Hubo un error');
     }
-  });  
-});
+}
 
-// INSERTAR DENUNCIAS
-router.post('/api/denuncias/', (req, res) => {
-  const { den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
-        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
-        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-        den_denunciantes, den_colindantes } = req.body;
-   
+//Insertar denuncia
+exports.InsertDenunciation = async (req, res) => {
+	
+  const { 
+  	den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
+    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+    den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
+    den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
+    den_denunciantes, den_colindantes 
+  } = req.body;
+
   const newData = {
     DEN_ID_CUSTOM: den_id_custom, 
     DEN_FECHA_RECEPCION: den_fecha_recepcion, 
@@ -74,22 +82,27 @@ router.post('/api/denuncias/', (req, res) => {
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
           @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
   `;
-  mysqlConnection.query(query, [den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
-        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
-        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-        den_denunciantes, den_colindantes], (err, rows, fields) => {
-    if(!err) {
-      res.json(newData);
-    } else {
-      console.log("Error:"+err);
-    }
-  });
 
-});
+  	try {
+	  await mysqlConnection.query(query, [den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
+	        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
+	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
+	        den_denunciantes, den_colindantes], (err, rows, fields) => {
+	    if(!err) {
+	      res.json(newData);
+	    } else {
+	      console.log("Error:"+err);
+	    }
+	  });
+	} catch {
+		console.log(error);
+        res.status(400).send('Hubo un error');
+	}
+} 
 
-//ACTUALIZAR DENUNCIAS
-router.put('/api/denuncias/:DEN_ID', (req, res) => {
+//Actualizar denuncias
+exports.UpdateDenunciation = async (req, res) => {
   const { DEN_ID_CUSTOM, DEN_FECHA_RECEPCION, USU_CUENTA, USU_MICRORED, DEN_MEDIO,
         DEN_TIPO, DEN_AGENTE_NOMBRE, DEN_INSECTO, DEN_INSECTO_OTRO, DEN_HABITANTE_NOMBRE,
         DEN_HABITANTE_TELEFONO1, DEN_OTRO_TELEFONO, DEN_HABITANTE_TELEFONO2, DEN_PROVINCIA, DEN_DISTRITO,
@@ -126,17 +139,21 @@ router.put('/api/denuncias/:DEN_ID', (req, res) => {
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
           @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
   `;
-  mysqlConnection.query(query, [DEN_ID, DEN_ID_CUSTOM, DEN_FECHA_RECEPCION, USU_CUENTA, USU_MICRORED, DEN_MEDIO,
-        DEN_TIPO, DEN_AGENTE_NOMBRE, DEN_INSECTO, DEN_INSECTO_OTRO, DEN_HABITANTE_NOMBRE,
-        DEN_HABITANTE_TELEFONO1, DEN_OTRO_TELEFONO, DEN_HABITANTE_TELEFONO2, DEN_PROVINCIA, DEN_DISTRITO,
-        DEN_LOCALIDAD, DEN_DIRECCION, DEN_REFERENCIA, DEN_FECHA_PROBABLE_INSPECCION, 
-        DEN_DENUNCIANTES, DEN_COLINDANTES], (err, rows, fields) => {
-    if(!err) {
-      res.json({status: 'Denuncia actualizada'});
-    } else {
-      console.log(err);
-    }
-  });
-});
 
-module.exports = router;
+  try {
+	  await mysqlConnection.query(query, [DEN_ID, DEN_ID_CUSTOM, DEN_FECHA_RECEPCION, USU_CUENTA, USU_MICRORED, DEN_MEDIO,
+	        DEN_TIPO, DEN_AGENTE_NOMBRE, DEN_INSECTO, DEN_INSECTO_OTRO, DEN_HABITANTE_NOMBRE,
+	        DEN_HABITANTE_TELEFONO1, DEN_OTRO_TELEFONO, DEN_HABITANTE_TELEFONO2, DEN_PROVINCIA, DEN_DISTRITO,
+	        DEN_LOCALIDAD, DEN_DIRECCION, DEN_REFERENCIA, DEN_FECHA_PROBABLE_INSPECCION, 
+	        DEN_DENUNCIANTES, DEN_COLINDANTES], (err, rows, fields) => {
+	    if(!err) {
+	      res.json({status: 'Denuncia actualizada'});
+	    } else {
+	      console.log(err);
+	    }
+	  });
+  } catch {
+	console.log(error);
+    res.status(400).send('Hubo un error');
+  }
+}
