@@ -6,22 +6,6 @@ const jwt = require('jsonwebtoken');
 
 const mysqlConnection  = require('../config/database.js');
 
-//Obtener todas las inspecciones
-/*exports.LoginAuthentication = async (req, res) => {
-	try {
-		await mysqlConnection.query('SELECT * FROM INSPECCIONES', (err, rows, fields) => {
-		    if(!err) {
-		      res.json(rows);
-		    } else {
-		      console.log(err);
-		    }
-  		});
-	} catch (error) {
-        console.log(error);
-        res.status(400).send('Hubo un error');
-    }
-}
-*/
 //Iniciar sesion
 exports.LoginAuthentication = async (req, res) => {
     //Extraer el email y password
@@ -33,7 +17,7 @@ exports.LoginAuthentication = async (req, res) => {
             if(!err) {
                 //res.json(rows);
                 const usuario = rows;
-
+                console.log("usuario")
                 if (usuario.length === 0) {
                   console.log("usuario no existe")
                   return res.status(400).json({msg: 'El usuario no existe'});
@@ -60,7 +44,13 @@ exports.LoginAuthentication = async (req, res) => {
 
                     //Mensaje de confirmacion
                     console.log("creacion de token correcto");
-                    res.json({token});
+                    //Eliminando propiedades que no son necesarias para pasarlas a front
+                    delete usuario[0].USU_ID
+                    delete usuario[0].USU_CONTRASENIA
+                    delete usuario[0].USU_NOMBRES
+                    delete usuario[0].USU_PRIVILEGIOS
+                    //Enviando datos a front
+                    res.json(usuario[0]);
                 });
                 
 
