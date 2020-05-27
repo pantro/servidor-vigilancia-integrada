@@ -17,6 +17,7 @@ app.set('port', process.env.PORT || 3000);
 app.use('/api/denuncias', require('./routes/denunciations'));
 app.use('/api/inspecciones', require('./routes/inspections'));
 app.use('/api/acceder', require('./routes/authentication'));
+app.use('/api/visitas-app', require('./routes/visitsApp'));
 
 // Starting the server
 app.listen(app.get('port'), '0.0.0.0', () => {

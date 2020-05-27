@@ -14,8 +14,8 @@ exports.GetDenunciations = async (req, res) => {
 		    }
   		});
 	} catch (error) {
-        console.log(error);
-        res.status(400).send('Hubo un error');
+        console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+        res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
     }
 }
 
@@ -96,8 +96,8 @@ exports.InsertDenunciation = async (req, res) => {
 	    }
 	  });
 	} catch {
-		console.log(error);
-        res.status(400).send('Hubo un error');
+		console.log(error+' Hubo un error al consultar INSERTAR datos de la tabla DENUNCIAS');
+        res.status(400).send('Hubo un error al consultar INSERTAR datos de la tabla DENUNCIAS');
 	}
 } 
 
@@ -153,7 +153,7 @@ exports.UpdateDenunciation = async (req, res) => {
 	    }
 	  });
   } catch {
-	console.log(error);
-    res.status(400).send('Hubo un error');
+	  console.log(error+' Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
+    res.status(400).send('Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
   }
 }

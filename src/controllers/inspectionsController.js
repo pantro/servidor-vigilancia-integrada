@@ -14,8 +14,8 @@ exports.GetInspections = async (req, res) => {
 		    }
   		});
 	} catch (error) {
-        console.log(error);
-        res.status(400).send('Hubo un error');
+        console.log(error+' Hubo un error al consultar OBTENER datos de la tabla INSPECCIONES');
+        res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla INSPECCIONES');
     }
 }
 
@@ -89,14 +89,11 @@ exports.InsertInspection = async (req, res) => {
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
 	        den_denunciantes, den_colindantes], (err, rows, fields) => {
-	    if(!err) {
-	      res.json(newData);
-	    } else {
-	      console.log("Error:"+err);
-	    }
-	  });
+        	    res.json(newData);
+        	});
+
 	} catch {
-		console.log(error);
-        res.status(400).send('Hubo un error');
+		console.log(error+' Hubo un error al consultar INSERTAR datos de la tabla INSPECCIONES');
+        res.status(400).send('Hubo un error al consultar INSERTAR datos de la tabla INSPECCIONES');
 	}
 } 
