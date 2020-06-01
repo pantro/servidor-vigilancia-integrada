@@ -5,13 +5,17 @@ const mysqlConnection  = require('../config/database.js');
 
 //Obtener todas las inspecciones
 exports.GetInspections = async (req, res) => {
-	try {
-		await mysqlConnection.query('SELECT * FROM INSPECCIONES', (err, rows, fields) => {
-		    if(!err) {
-		      res.json(rows);
-		    } else {
-		      console.log(err);
-		    }
+    //Obteniendo solo visitas desde cutoff
+    const reduceDays = (24*60*60*1000) * 365;
+    const currentDate = new Date();
+    const cutoff = DateFull(new Date(currentDate -  reduceDays));
+    console.log("cutoff: "+cutoff);
+    //const arreglo = ["1.23.8", "1.18.25"];
+
+    try {
+		//await mysqlConnection.query('SELECT * FROM INSPECCIONES WHERE FECHA >= (?) && CODE_LOCALITY IN (?)', [fecha], (err, rows, fields) => {
+		await mysqlConnection.query('SELECT UNICODE, FECHA, STATUS_INSPECCION, INTRA_CHIRIS, PERI_CHIRIS FROM INSPECCIONES WHERE FECHA >= (?)', [cutoff], (err, rows, fields) => {
+            res.json(rows);
   		});
 	} catch (error) {
         console.log(error+' Hubo un error al consultar OBTENER datos de la tabla INSPECCIONES');
@@ -97,3 +101,17 @@ exports.InsertInspection = async (req, res) => {
         res.status(400).send('Hubo un error al consultar INSERTAR datos de la tabla INSPECCIONES');
 	}
 } 
+
+//Funcion para obtener la fecha en el formato yyyy-mm-dd
+const DateFull = ( date ) => {
+    const year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    if(month < 10){
+        month = "0"+ month;
+    }
+    if ( day < 10) {
+        day = "0"+day;
+    }
+    return(`${year}-${month}-${day}`);
+}
