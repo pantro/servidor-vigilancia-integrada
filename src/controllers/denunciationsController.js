@@ -23,7 +23,7 @@ exports.GetDenunciations = async (req, res) => {
 exports.InsertDenunciation = async (req, res) => {
 	
   const { 
-  	den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
+  	den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
@@ -32,9 +32,9 @@ exports.InsertDenunciation = async (req, res) => {
 
   const newData = {
     DEN_ID_CUSTOM: den_id_custom, 
+    USU_CUENTA: usu_cuenta,
+    USU_MICRORED: usu_microred,
     DEN_FECHA_RECEPCION: den_fecha_recepcion, 
-    USU_CUENTA: usu_cuenta, 
-    USU_MICRORED:  usu_microred, 
     DEN_MEDIO:  den_medio,
     DEN_TIPO: den_tipo, 
     DEN_AGENTE_NOMBRE: den_agente_nombre,
@@ -57,9 +57,9 @@ exports.InsertDenunciation = async (req, res) => {
   const query = `
     SET @DEN_ID = ?;
     SET @DEN_ID_CUSTOM = ?;
-    SET @DEN_FECHA_RECEPCION = ?;
-    SET @USU_CUENTA = ?; 
+    SET @USU_CUENTA = ?;
     SET @USU_MICRORED = ?;
+    SET @DEN_FECHA_RECEPCION = ?;
     SET @DEN_MEDIO = ?;
     SET @DEN_TIPO = ?;
     SET @DEN_AGENTE_NOMBRE = ?; 
@@ -77,14 +77,14 @@ exports.InsertDenunciation = async (req, res) => {
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
     SET @DEN_DENUNCIANTES = ?;
     SET @DEN_COLINDANTES = ?;
-    CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @DEN_FECHA_RECEPCION, @USU_CUENTA, @USU_MICRORED,
+    CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @USU_CUENTA, @USU_MICRORED, @DEN_FECHA_RECEPCION,
           @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
           @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
   `;
 
   	try {
-	  await mysqlConnection.query(query, [den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
+	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
 	        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
@@ -155,5 +155,28 @@ exports.UpdateDenunciation = async (req, res) => {
   } catch {
 	  console.log(error+' Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
     res.status(400).send('Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
+  }
+}
+
+//Crear ID CUSTOM denuncias
+exports.CreateDenIdCustom = async (req, res) => {
+  
+  const { USU_MICRORED } = req.params;
+  
+  const query = `
+    SET @USU_MICRORED = ?;
+    CALL createDenIdCustom(@USU_MICRORED);`;
+
+  try {
+    await mysqlConnection.query(query, [USU_MICRORED], (err, rows, fields) => {
+      if(!err) {
+        res.json({status: 'Se creo el id custom'});
+      } else {
+        console.log(err);
+      }
+    });
+  } catch {
+    console.log(error+' Hubo un error al crear ID CUSTOM de DENUNCIAS');
+    res.status(400).send('Hubo un error al crear ID CUSTOM de DENUNCIAS');
   }
 }
