@@ -21,15 +21,13 @@ exports.GetDenunciations = async (req, res) => {
 
 //Insertar denuncia
 exports.InsertDenunciation = async (req, res) => {
-	
+	console.log(req.body);
   const { 
   	den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-    den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-    den_denunciantes, den_colindantes 
+    den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion
   } = req.body;
-
   const newData = {
     DEN_ID_CUSTOM: den_id_custom, 
     USU_CUENTA: usu_cuenta,
@@ -49,9 +47,7 @@ exports.InsertDenunciation = async (req, res) => {
     DEN_LOCALIDAD: den_localidad,
     DEN_DIRECCION:  den_direccion, 
     DEN_REFERENCIA:  den_referencia, 
-    DEN_FECHA_PROBABLE_INSPECCION:  den_fecha_probable_inspeccion, 
-    DEN_DENUNCIANTES: den_denunciantes, 
-    DEN_COLINDANTES: den_colindantes
+    DEN_FECHA_PROBABLE_INSPECCION:  den_fecha_probable_inspeccion
   }
 
   const query = `
@@ -75,20 +71,17 @@ exports.InsertDenunciation = async (req, res) => {
     SET @DEN_DIRECCION = ?;
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
-    SET @DEN_DENUNCIANTES = ?;
-    SET @DEN_COLINDANTES = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @USU_CUENTA, @USU_MICRORED, @DEN_FECHA_RECEPCION,
           @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
-          @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
-          @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
+          @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, 
+          @DEN_LOCALIDAD, @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION);
   `;
 
   	try {
-	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
-	        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, 
+          den_medio, den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-	        den_denunciantes, den_colindantes], (err, rows, fields) => {
+	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion], (err, rows, fields) => {
 	    if(!err) {
 	      res.json(newData);
 	    } else {
@@ -102,14 +95,39 @@ exports.InsertDenunciation = async (req, res) => {
 } 
 
 //Actualizar denuncias
-exports.UpdateDenunciation = async (req, res) => {
-  const { DEN_ID_CUSTOM, DEN_FECHA_RECEPCION, USU_CUENTA, USU_MICRORED, DEN_MEDIO,
-        DEN_TIPO, DEN_AGENTE_NOMBRE, DEN_INSECTO, DEN_INSECTO_OTRO, DEN_HABITANTE_NOMBRE,
-        DEN_HABITANTE_TELEFONO1, DEN_OTRO_TELEFONO, DEN_HABITANTE_TELEFONO2, DEN_PROVINCIA, DEN_DISTRITO,
-        DEN_LOCALIDAD, DEN_DIRECCION, DEN_REFERENCIA, DEN_FECHA_PROBABLE_INSPECCION, 
-        DEN_DENUNCIANTES, DEN_COLINDANTES } = req.body;
+exports.EditDenunciation = async (req, res) => {
+  
+  console.log("holaaaaaaaaaaaaaa");
+  const { 
+    den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
+    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+    den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
+    den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion
+  } = req.body;
   
   const { DEN_ID } = req.params;
+  
+  const newData = {
+    DEN_ID_CUSTOM: den_id_custom, 
+    USU_CUENTA: usu_cuenta,
+    USU_MICRORED: usu_microred,
+    DEN_FECHA_RECEPCION: den_fecha_recepcion, 
+    DEN_MEDIO:  den_medio,
+    DEN_TIPO: den_tipo, 
+    DEN_AGENTE_NOMBRE: den_agente_nombre,
+    DEN_INSECTO: den_insecto, 
+    DEN_INSECTO_OTRO:  den_insecto_otro,
+    DEN_HABITANTE_NOMBRE:  den_habitante_nombre,
+    DEN_HABITANTE_TELEFONO1: den_habitante_telefono1,
+    DEN_OTRO_TELEFONO: den_otro_telefono,
+    DEN_HABITANTE_TELEFONO2:  den_habitante_telefono2, 
+    DEN_PROVINCIA:  den_provincia, 
+    DEN_DISTRITO: den_distrito,
+    DEN_LOCALIDAD: den_localidad,
+    DEN_DIRECCION:  den_direccion, 
+    DEN_REFERENCIA:  den_referencia, 
+    DEN_FECHA_PROBABLE_INSPECCION:  den_fecha_probable_inspeccion
+  }
   
   const query = `
     SET @DEN_ID = ?;
@@ -132,22 +150,19 @@ exports.UpdateDenunciation = async (req, res) => {
     SET @DEN_DIRECCION = ?;
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
-    SET @DEN_DENUNCIANTES = ?;
-    SET @DEN_COLINDANTES = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @DEN_FECHA_RECEPCION, @USU_CUENTA, @USU_MICRORED,
           @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
-          @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
+          @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION);
   `;
 
   try {
-	  await mysqlConnection.query(query, [DEN_ID, DEN_ID_CUSTOM, DEN_FECHA_RECEPCION, USU_CUENTA, USU_MICRORED, DEN_MEDIO,
-	        DEN_TIPO, DEN_AGENTE_NOMBRE, DEN_INSECTO, DEN_INSECTO_OTRO, DEN_HABITANTE_NOMBRE,
-	        DEN_HABITANTE_TELEFONO1, DEN_OTRO_TELEFONO, DEN_HABITANTE_TELEFONO2, DEN_PROVINCIA, DEN_DISTRITO,
-	        DEN_LOCALIDAD, DEN_DIRECCION, DEN_REFERENCIA, DEN_FECHA_PROBABLE_INSPECCION, 
-	        DEN_DENUNCIANTES, DEN_COLINDANTES], (err, rows, fields) => {
+	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
+          den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+          den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
+          den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion], (err, rows, fields) => {
 	    if(!err) {
-	      res.json({status: 'Denuncia actualizada'});
+	      res.json(newData);
 	    } else {
 	      console.log(err);
 	    }

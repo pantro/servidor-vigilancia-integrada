@@ -12,7 +12,7 @@ router.get('/', denunciationsController.GetDenunciations);
 router.post('/', denunciationsController.InsertDenunciation);
 
 //ACTUALIZAR DENUNCIAS
-router.put('/:DEN_ID', denunciationsController.UpdateDenunciation);
+router.put('/:DEN_ID', denunciationsController.EditDenunciation);
 
 //Crear custom id denuncias
 router.post('/:USU_MICRORED', denunciationsController.CreateDenIdCustom);
