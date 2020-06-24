@@ -14,9 +14,9 @@ exports.GetDenunciations = async (req, res) => {
 		    }
   		});
 	} catch (error) {
-        console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
-        res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
-    }
+      console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+      res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+  }
 }
 
 //Insertar denuncia
@@ -97,7 +97,6 @@ exports.InsertDenunciation = async (req, res) => {
 //Actualizar denuncias
 exports.EditDenunciation = async (req, res) => {
   
-  console.log("holaaaaaaaaaaaaaa");
   const { 
     den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
@@ -174,24 +173,21 @@ exports.EditDenunciation = async (req, res) => {
 }
 
 //Crear ID CUSTOM denuncias
-exports.CreateDenIdCustom = async (req, res) => {
-  
+exports.GetDenunciationsMicrored = async (req, res) => {
+  console.log(req.params);
   const { USU_MICRORED } = req.params;
   
-  const query = `
-    SET @USU_MICRORED = ?;
-    CALL createDenIdCustom(@USU_MICRORED);`;
-
   try {
-    await mysqlConnection.query(query, [USU_MICRORED], (err, rows, fields) => {
-      if(!err) {
-        res.json({status: 'Se creo el id custom'});
-      } else {
-        console.log(err);
-      }
-    });
-  } catch {
-    console.log(error+' Hubo un error al crear ID CUSTOM de DENUNCIAS');
-    res.status(400).send('Hubo un error al crear ID CUSTOM de DENUNCIAS');
-  }
+    await mysqlConnection.query('SELECT * FROM DENUNCIAS WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
+        if(!err) {
+          res.json(rows);
+        } else {
+          console.log("Error al realizar la consulta mysql: "+err);
+          res.status(400).send('Hubo un error al realizar la consulta mysql a la tabla DENUNCIAS');
+        }
+      });
+  } catch (error) {
+      console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+      res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+  }  
 }

@@ -15,7 +15,6 @@ router.post('/', denunciationsController.InsertDenunciation);
 router.put('/:DEN_ID', denunciationsController.EditDenunciation);
 
 //Crear custom id denuncias
-router.post('/:USU_MICRORED', denunciationsController.CreateDenIdCustom);
-
+router.post('/:USU_MICRORED', denunciationsController.GetDenunciationsMicrored);
 
 module.exports = router;
