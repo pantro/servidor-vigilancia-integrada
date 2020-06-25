@@ -21,7 +21,7 @@ exports.GetDenunciations = async (req, res) => {
 
 //Insertar denuncia
 exports.InsertDenunciation = async (req, res) => {
-	console.log(req.body);
+	
   const { 
   	den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
@@ -174,7 +174,6 @@ exports.EditDenunciation = async (req, res) => {
 
 //Crear ID CUSTOM denuncias
 exports.GetDenunciationsMicrored = async (req, res) => {
-  console.log(req.params);
   const { USU_MICRORED } = req.params;
   
   try {

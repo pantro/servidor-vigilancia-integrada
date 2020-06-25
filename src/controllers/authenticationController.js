@@ -16,7 +16,7 @@ exports.LoginAuthentication = async (req, res) => {
         await mysqlConnection.query('SELECT * FROM USUARIOS WHERE USU_CUENTA = ?', [username], (err, rows, fields) => {
             //res.json(rows);
             const usuario = rows;
-            console.log("usuario")
+            
             if (usuario.length === 0) {
               console.log("usuario no existe")
               return res.status(400).json({msg: 'El usuario no existe'});
