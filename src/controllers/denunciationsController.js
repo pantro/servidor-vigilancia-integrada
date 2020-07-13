@@ -24,7 +24,7 @@ exports.InsertDenunciation = async (req, res) => {
 	
   const { 
   	den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
-    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion
   } = req.body;
@@ -38,6 +38,7 @@ exports.InsertDenunciation = async (req, res) => {
     DEN_AGENTE_NOMBRE: den_agente_nombre,
     DEN_INSECTO: den_insecto, 
     DEN_INSECTO_OTRO:  den_insecto_otro,
+    DEN_INSECTO_OTRO2:  den_insecto_otro2,
     DEN_HABITANTE_NOMBRE:  den_habitante_nombre,
     DEN_HABITANTE_TELEFONO1: den_habitante_telefono1,
     DEN_OTRO_TELEFONO: den_otro_telefono,
@@ -61,6 +62,7 @@ exports.InsertDenunciation = async (req, res) => {
     SET @DEN_AGENTE_NOMBRE = ?; 
     SET @DEN_INSECTO = ?;
     SET @DEN_INSECTO_OTRO = ?;
+    SET @DEN_INSECTO_OTRO2 = ?;
     SET @DEN_HABITANTE_NOMBRE = ?;
     SET @DEN_HABITANTE_TELEFONO1 = ?;
     SET @DEN_OTRO_TELEFONO = ?;
@@ -72,14 +74,14 @@ exports.InsertDenunciation = async (req, res) => {
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @USU_CUENTA, @USU_MICRORED, @DEN_FECHA_RECEPCION,
-          @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
+          @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_INSECTO_OTRO2, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, 
           @DEN_LOCALIDAD, @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION);
   `;
 
   	try {
 	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, 
-          den_medio, den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+          den_medio, den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion], (err, rows, fields) => {
 	    if(!err) {
@@ -99,7 +101,7 @@ exports.EditDenunciation = async (req, res) => {
   
   const { 
     den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
-    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion
   } = req.body;
@@ -116,6 +118,7 @@ exports.EditDenunciation = async (req, res) => {
     DEN_AGENTE_NOMBRE: den_agente_nombre,
     DEN_INSECTO: den_insecto, 
     DEN_INSECTO_OTRO:  den_insecto_otro,
+    DEN_INSECTO_OTRO2:  den_insecto_otro2,
     DEN_HABITANTE_NOMBRE:  den_habitante_nombre,
     DEN_HABITANTE_TELEFONO1: den_habitante_telefono1,
     DEN_OTRO_TELEFONO: den_otro_telefono,
@@ -139,6 +142,7 @@ exports.EditDenunciation = async (req, res) => {
     SET @DEN_AGENTE_NOMBRE = ?; 
     SET @DEN_INSECTO = ?;
     SET @DEN_INSECTO_OTRO = ?;
+    SET @DEN_INSECTO_OTRO2 = ?;
     SET @DEN_HABITANTE_NOMBRE = ?;
     SET @DEN_HABITANTE_TELEFONO1 = ?;
     SET @DEN_OTRO_TELEFONO = ?;
@@ -150,14 +154,14 @@ exports.EditDenunciation = async (req, res) => {
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @DEN_FECHA_RECEPCION, @USU_CUENTA, @USU_MICRORED,
-          @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
+          @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_INSECTO_OTRO2, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
           @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION);
   `;
 
   try {
 	  await mysqlConnection.query(query, [den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
-          den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
+          den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
           den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
           den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion], (err, rows, fields) => {
 	    if(!err) {

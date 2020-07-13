@@ -1,0 +1,2 @@
+- npm install multer --save (para guardar imagenes)
+
