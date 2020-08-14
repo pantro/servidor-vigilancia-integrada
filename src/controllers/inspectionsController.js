@@ -25,88 +25,92 @@ exports.GetInspections = async (req, res) => {
 
 //Insertar inspeccion
 exports.InsertInspection = async (req, res) => {
-	
-  const { 
-  	den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
-    den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
-    den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-    den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-    den_denunciantes, den_colindantes 
-  } = req.body;
 
+  const { 
+  	user_name,
+    den_id_custom,
+    unicode,
+    code_locality,
+    obs_unicode,
+    obs_text,
+    fecha,
+    caract_predio,
+    tipo_lp,
+    status_inspeccion,
+    entrevista,
+    motivo_volver,
+    fecha_volver,
+    renuente,
+    intra_inspeccion,
+    intra_chiris,
+    intra_rastros,
+    peri_inspeccion,
+    peri_chiris,
+    peri_rastros,
+    personas_predio,
+    cant_perros,
+    cant_gatos,
+    cant_aves_corral,
+    cant_cuyes,
+    cant_conejos,
+    text_otros,
+    cant_otros,
+    hora_inicio,
+    hora_fin
+  } = req.body;
+  console.log(req.body);
   const newData = {
-    USER_NAME: user_name,
     UNICODE:unicode,
-    CODE_LOCALITY:code_locality,
-    OBS_UNICODE:obs_unicode,
-    OBS_TEXT:obs_text,
     FECHA:fecha,
-    CARACT_PREDIO:caract_predio,
-    TIPO_LP:tipo_lp,
     STATUS_INSPECCION:status_inspeccion,
-    ENTREVISTA:entrevista,
-    MOTIVO_VOLVER:motivo_volver,
-    FECHA_VOLVER:fecha_volver,
-    RENUENTE:renuente,
-    INTRA_INSPECCION:intra_inspeccion,
     INTRA_CHIRIS:intra_chiris,
-    INTRA_RASTROS:intra_rastros,
-    PERI_INSPECCION:peri_inspeccion,
-    PERI_CHIRIS:peri_chiris,
-    PERI_RASTROS:peri_rastros,
-    PERSONAS_PREDIO:personas_predio,
-    CANT_PERROS:cant_perros,
-    CANT_GATOS:cant_gatos,
-    CANT_AVES_CORRAL:cant_aves_corral,
-    CANT_CUYES:cant_cuyes,
-    CANT_CONEJOS:cant_conejos,
-    TEXT_OTROS:text_otros,
-    CANT_OTROS:cant_otros,
-    HORA_INICIO:hora_inicio,
-    HORA_FIN:hora_fin,
-    INSPECTION_FLAG:inspection_flag,
-    PREDICTED_PROBAB:predicted_probab,
-    PREDICTED_PROBAB_MEAN:predicted_probab_mean,
-    RISK_COLOR:risk_color,    
-    LAT:lat,
-    LNG:lng,
+    PERI_CHIRIS:peri_chiris
   }
 
   const query = `
-    SET @DEN_ID = ?;
+    SET @USER_NAME = ?;
     SET @DEN_ID_CUSTOM = ?;
-    SET @DEN_FECHA_RECEPCION = ?;
-    SET @USU_CUENTA = ?; 
-    SET @USU_MICRORED = ?;
-    SET @DEN_MEDIO = ?;
-    SET @DEN_TIPO = ?;
-    SET @DEN_AGENTE_NOMBRE = ?; 
-    SET @DEN_INSECTO = ?;
-    SET @DEN_INSECTO_OTRO = ?;
-    SET @DEN_HABITANTE_NOMBRE = ?;
-    SET @DEN_HABITANTE_TELEFONO1 = ?;
-    SET @DEN_OTRO_TELEFONO = ?;
-    SET @DEN_HABITANTE_TELEFONO2 = ?;
-    SET @DEN_PROVINCIA = ?;
-    SET @DEN_DISTRITO = ?;
-    SET @DEN_LOCALIDAD = ?;
-    SET @DEN_DIRECCION = ?;
-    SET @DEN_REFERENCIA = ?;
-    SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
-    SET @DEN_DENUNCIANTES = ?;
-    SET @DEN_COLINDANTES = ?;
-    CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @DEN_FECHA_RECEPCION, @USU_CUENTA, @USU_MICRORED,
-          @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_HABITANTE_NOMBRE, 
-          @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
-          @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION, @DEN_DENUNCIANTES, @DEN_COLINDANTES);
+    SET @UNICODE = ?;
+    SET @CODE_LOCALITY = ?;
+    SET @OBS_UNICODE = ?;
+    SET @OBS_TEXT = ?;
+    SET @FECHA = ?;
+    SET @CARACT_PREDIO = ?;
+    SET @TIPO_LP = ?;
+    SET @STATUS_INSPECCION = ?;
+    SET @ENTREVISTA = ?;
+    SET @MOTIVO_VOLVER = ?;
+    SET @FECHA_VOLVER = ?;
+    SET @RENUENTE = ?;
+    SET @INTRA_INSPECCION = ?;
+    SET @INTRA_CHIRIS = ?;
+    SET @INTRA_RASTROS = ?;
+    SET @PERI_INSPECCION = ?;
+    SET @PERI_CHIRIS = ?;
+    SET @PERI_RASTROS = ?;
+    SET @PERSONAS_PREDIO = ?;
+    SET @CANT_PERROS = ?;
+    SET @CANT_GATOS = ?;
+    SET @CANT_AVES_CORRAL = ?;
+    SET @CANT_CUYES = ?;
+    SET @CANT_CONEJOS = ?;
+    SET @TEXT_OTROS = ?;
+    SET @CANT_OTROS = ?;
+    SET @HORA_INICIO = ?;
+    SET @HORA_FIN = ?;
+    CALL inspectionAdd(@USER_NAME, @DEN_ID_CUSTOM, @UNICODE, @CODE_LOCALITY, @OBS_UNICODE, @OBS_TEXT, 
+                       @FECHA, @CARACT_PREDIO, @TIPO_LP, @STATUS_INSPECCION, @ENTREVISTA, @MOTIVO_VOLVER, 
+                       @FECHA_VOLVER, @RENUENTE, @INTRA_INSPECCION, @INTRA_CHIRIS, @INTRA_RASTROS, @PERI_INSPECCION,
+                       @PERI_CHIRIS, @PERI_RASTROS, @PERSONAS_PREDIO, @CANT_PERROS, @CANT_GATOS, @CANT_AVES_CORRAL,
+                       @CANT_CUYES, @CANT_CONEJOS, @TEXT_OTROS, @CANT_OTROS, @HORA_INICIO, @HORA_FIN);
   `;
 
   	try {
-	  await mysqlConnection.query(query, [den_id, den_id_custom, den_fecha_recepcion, usu_cuenta, usu_microred, den_medio,
-	        den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_habitante_nombre,
-	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
-	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-	        den_denunciantes, den_colindantes], (err, rows, fields) => {
+	  await mysqlConnection.query(query, [user_name, den_id_custom, unicode, code_locality, obs_unicode,
+                        obs_text, fecha, caract_predio, tipo_lp, status_inspeccion, entrevista, motivo_volver,
+                        fecha_volver, renuente, intra_inspeccion, intra_chiris, intra_rastros, peri_inspeccion,
+                        peri_chiris, peri_rastros, personas_predio, cant_perros, cant_gatos, cant_aves_corral,
+                        cant_cuyes, cant_conejos, text_otros, cant_otros, hora_inicio, hora_fin], (err, rows, fields) => {
         	    res.json(newData);
         	});
 
