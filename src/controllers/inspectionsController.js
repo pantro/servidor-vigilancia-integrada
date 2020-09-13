@@ -61,16 +61,16 @@ exports.InsertInspection = async (req, res) => {
     hora_inicio,
     hora_fin
   } = req.body;
-  console.log(req.body);
+  
   const newData = {
     UNICODE:unicode,
     FECHA:fecha,
     STATUS_INSPECCION:status_inspeccion,
     INSP_HABITANTE_TELEFONO:insp_habitante_telefono,
-    INTRA_CHIRIS:intra_chiris,
-    PERI_CHIRIS:peri_chiris
+    INTRA_CHIRIS:intra_chiris? "1":"0",
+    PERI_CHIRIS:peri_chiris? "1":"0"
   }
-
+  
   const query = `
     SET @USER_NAME = ?;
     SET @DEN_ID_CUSTOM = ?;
