@@ -21,14 +21,15 @@ exports.GetDenunciations = async (req, res) => {
 
 //Insertar denuncia
 exports.InsertDenunciation = async (req, res) => {
-	debugger;
+	
   const { 
   	den_id, den_id_custom, usu_cuenta, usu_microred, den_fecha_recepcion, den_medio,
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
-    den_denunciante, den_cant_colindantes, den_estado
+    den_unicode, den_cant_colindantes, den_estado
   } = req.body;
+
   const newData = {
     DEN_ID_CUSTOM: den_id_custom, 
     USU_CUENTA: usu_cuenta,
@@ -74,14 +75,14 @@ exports.InsertDenunciation = async (req, res) => {
     SET @DEN_DIRECCION = ?;
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
-    SET @DEN_DENUNCIANTE = ?;
+    SET @DEN_UNICODE = ?;
     SET @DEN_CANT_COLINDANTES = ?;
     SET @DEN_ESTADO = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @USU_CUENTA, @USU_MICRORED, @DEN_FECHA_RECEPCION,
           @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_INSECTO_OTRO2, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, 
           @DEN_LOCALIDAD, @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION,
-          @DEN_DENUNCIANTE, @DEN_CANT_COLINDANTES, @DEN_ESTADO);
+          @DEN_UNICODE, @DEN_CANT_COLINDANTES, @DEN_ESTADO);
   `;
 
   	try {
@@ -89,7 +90,7 @@ exports.InsertDenunciation = async (req, res) => {
           den_medio, den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion,
-          den_denunciante, den_cant_colindantes, den_estado], (err, rows, fields) => {
+          den_unicode, den_cant_colindantes, den_estado], (err, rows, fields) => {
 	    if(!err) {
 	      res.json(newData);
 	    } else {
@@ -110,7 +111,7 @@ exports.EditDenunciation = async (req, res) => {
     den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
     den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion,
-    den_denunciante, den_cant_colindantes, den_estado
+    den_unicode, den_cant_colindantes, den_estado
   } = req.body;
   
   const { DEN_ID } = req.params;
@@ -160,14 +161,14 @@ exports.EditDenunciation = async (req, res) => {
     SET @DEN_DIRECCION = ?;
     SET @DEN_REFERENCIA = ?;
     SET @DEN_FECHA_PROBABLE_INSPECCION = ?;
-    SET @DEN_DENUNCIANTE = ?;
+    SET @DEN_UNICODE = ?;
     SET @DEN_CANT_COLINDANTES = ?;
     SET @DEN_ESTADO = ?;
     CALL denunciationAddOrEdit(@DEN_ID, @DEN_ID_CUSTOM, @DEN_FECHA_RECEPCION, @USU_CUENTA, @USU_MICRORED,
           @DEN_MEDIO, @DEN_TIPO, @DEN_AGENTE_NOMBRE, @DEN_INSECTO, @DEN_INSECTO_OTRO, @DEN_INSECTO_OTRO2, @DEN_HABITANTE_NOMBRE, 
           @DEN_HABITANTE_TELEFONO1, @DEN_OTRO_TELEFONO, @DEN_HABITANTE_TELEFONO2, @DEN_PROVINCIA, @DEN_DISTRITO, @DEN_LOCALIDAD, 
           @DEN_DIRECCION, @DEN_REFERENCIA, @DEN_FECHA_PROBABLE_INSPECCION,
-          @DEN_DENUNCIANTE, @DEN_CANT_COLINDANTES, @DEN_ESTADO);
+          @DEN_UNICODE, @DEN_CANT_COLINDANTES, @DEN_ESTADO);
   `;
 
   try {
@@ -175,7 +176,7 @@ exports.EditDenunciation = async (req, res) => {
           den_tipo, den_agente_nombre, den_insecto, den_insecto_otro, den_insecto_otro2, den_habitante_nombre,
           den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
           den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion,
-          den_denunciante, den_cant_colindantes, den_estado], (err, rows, fields) => {
+          den_unicode, den_cant_colindantes, den_estado], (err, rows, fields) => {
 	    if(!err) {
 	      res.json(newData);
 	    } else {
