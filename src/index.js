@@ -18,6 +18,7 @@ app.use('/api/denuncias', require('./routes/denunciations'));
 app.use('/api/inspecciones', require('./routes/inspections'));
 app.use('/api/acceder', require('./routes/authentication'));
 app.use('/api/visitas-app', require('./routes/visitsApp'));
+app.use('/api/rociados', require('./routes/rociados'));
 
 // Starting the server
 app.listen(app.get('port'), '0.0.0.0', () => {
