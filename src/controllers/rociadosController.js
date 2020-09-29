@@ -9,7 +9,7 @@ exports.GetRociados = async (req, res) => {
     //No se el porque pero por ahora no voy a considerarlo
 
     try {
-        await mysqlConection.query('SELECT UNICODE, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA FROM ROCIADOS', (err, rows, fields) => {
+        await mysqlConection.query('SELECT UNICODE, USU_MICRORED, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA FROM ROCIADOS', (err, rows, fields) => {
             res.json(rows);
         });
     }catch (error) {
@@ -26,6 +26,7 @@ exports.InsertRociado = async (req, res) => {
 
     const {
         usu_cuenta,
+        usu_microred,
         roc_unicode,
         roc_fecha,
         roc_tratamiento_residual,
@@ -64,12 +65,13 @@ exports.InsertRociado = async (req, res) => {
 
     const respuesta = {
         UNICODE:roc_unicode,
+        USU_MICRORED: usu_microred,
         ROC_FECHA:roc_fecha,
         ROC_TRATAMIENTO_RESIDUAL: roc_tratamiento_residual,
         ROC_DESHABITADA_ROCIADA: roc_deshabitada_rociada
     }
 
-    const query = `CALL RociadosAdd("${usu_cuenta}", "${roc_unicode}", "${roc_fecha}", "${roc_tratamiento_residual}", 
+    const query = `CALL RociadosAdd("${usu_cuenta}", "${usu_microred}", "${roc_unicode}", "${roc_fecha}", "${roc_tratamiento_residual}", 
                                     "${roc_deshabitada_rociada}", "${roc_nombre_rociador}", "${roc_nombre_insecticida}", 
                                     "${roc_jefe_familia}", "${roc_cant_personas}", "${roc_intra_cant_ambientes}", 
                                     "${roc_intra_ambientes_cerrados}", "${roc_intra_material_predominante}", "${roc_intra_grietas}", 
