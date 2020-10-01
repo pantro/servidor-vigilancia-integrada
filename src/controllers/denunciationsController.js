@@ -29,29 +29,7 @@ exports.InsertDenunciation = async (req, res) => {
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
     den_unicode, den_cant_colindantes, den_estado
   } = req.body;
-
-  const newData = {
-    DEN_ID_CUSTOM: den_id_custom, 
-    USU_CUENTA: usu_cuenta,
-    USU_MICRORED: usu_microred,
-    DEN_FECHA_RECEPCION: den_fecha_recepcion, 
-    DEN_MEDIO:  den_medio,
-    DEN_TIPO: den_tipo, 
-    DEN_AGENTE_NOMBRE: den_agente_nombre,
-    DEN_INSECTO: den_insecto, 
-    DEN_INSECTO_OTRO:  den_insecto_otro,
-    DEN_INSECTO_OTRO2:  den_insecto_otro2,
-    DEN_HABITANTE_NOMBRE:  den_habitante_nombre,
-    DEN_HABITANTE_TELEFONO1: den_habitante_telefono1,
-    DEN_OTRO_TELEFONO: den_otro_telefono,
-    DEN_HABITANTE_TELEFONO2:  den_habitante_telefono2, 
-    DEN_PROVINCIA:  den_provincia, 
-    DEN_DISTRITO: den_distrito,
-    DEN_LOCALIDAD: den_localidad,
-    DEN_DIRECCION:  den_direccion, 
-    DEN_REFERENCIA:  den_referencia, 
-    DEN_FECHA_PROBABLE_INSPECCION:  den_fecha_probable_inspeccion
-  }
+  var result = {};
 
   const query = `
     SET @DEN_ID = ?;
@@ -92,10 +70,13 @@ exports.InsertDenunciation = async (req, res) => {
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion,
           den_unicode, den_cant_colindantes, den_estado], (err, rows, fields) => {
 	    if(!err) {
-	      res.json(newData);
+        result.option ='successful';
 	    } else {
+        result.option ='error';
+        result.msg ="Error posible en mysql"
 	      console.log("Error:"+err);
 	    }
+      res.json(result);
 	  });
 	} catch {
 		console.log(error+' Hubo un error al consultar INSERTAR datos de la tabla DENUNCIAS');
