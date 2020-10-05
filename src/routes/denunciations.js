@@ -21,7 +21,7 @@ router.post('/', [multer.single('attachment')], denunciationsController.InsertDe
 //ACTUALIZAR DENUNCIAS
 router.put('/:DEN_ID', denunciationsController.EditDenunciation);
 
-//Crear custom id denuncias
+//Obtener denuncias por microred
 router.post('/:USU_MICRORED', denunciationsController.GetDenunciationsMicrored);
 
 module.exports = router;
