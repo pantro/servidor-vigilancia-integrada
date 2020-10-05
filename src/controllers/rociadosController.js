@@ -12,7 +12,7 @@ exports.GetRociados = async (req, res) => {
     console.log("cutoff: "+cutoff);
 
     try {
-        await mysqlConection.query('SELECT USU_CUENTA, USU_MICRORED, UNICODE, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA, ROC_NOMBRE_ROCIADOR, ROC_NOMBRE_INSECTICIDA, ROC_JEFE_FAMILIA, ROC_CANT_PERSONAS, ROC_INTRA_CANT_AMBIENTES, ROC_INTRA_AMBIENTES_CERRADOS, ROC_INTRA_MATERIAL_PREDOMINANTE, ROC_INTRA_GRIETAS, ROC_INTRA_CANT_CAPTURADOS, ROC_PERI_CANT_AMBIENTES, ROC_PERI_MATERIAL_PREDOMINANTE, ROC_PERI_GRIETAS, ROC_PERI_CANT_CAPTURADOS, ROC_TECHO_CANT_PERROS, ROC_TECHO_CANT_GATOS, ROC_TECHO_CANT_AVES_CORRAL, ROC_TECHO_CANT_CUYES, ROC_TECHO_CANT_CONEJOS, ROC_TECHO_TEXT_OTROS, ROC_TECHO_CANT_OTROS, ROC_PATIO_CANT_PERROS, ROC_PATIO_CANT_GATOS, ROC_PATIO_CANT_AVES_CORRAL, ROC_PATIO_CANT_CUYES, ROC_PATIO_CANT_CONEJOS, ROC_PATIO_TEXT_OTROS, ROC_PATIO_CANT_OTROS, ROC_CANT_INSECTICIDA, ROC_SUPERFICIE_TRATADA, ROC_OBSERVACIONES FROM ROCIADOS WHERE ROC_FECHA >= (?)', [cutoff], (err, rows, fields) => {
+        await mysqlConection.query('SELECT USU_CUENTA, USU_MICRORED, UNICODE, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA, ROC_COLINDANTE, ROC_COLINDANTE_INSP, ROC_NOMBRE_ROCIADOR, ROC_NOMBRE_INSECTICIDA, ROC_JEFE_FAMILIA, ROC_CANT_PERSONAS, ROC_INTRA_CANT_AMBIENTES, ROC_INTRA_AMBIENTES_CERRADOS, ROC_INTRA_MATERIAL_PREDOMINANTE, ROC_INTRA_GRIETAS, ROC_INTRA_CANT_CAPTURADOS, ROC_PERI_CANT_AMBIENTES, ROC_PERI_MATERIAL_PREDOMINANTE, ROC_PERI_GRIETAS, ROC_PERI_CANT_CAPTURADOS, ROC_TECHO_CANT_PERROS, ROC_TECHO_CANT_GATOS, ROC_TECHO_CANT_AVES_CORRAL, ROC_TECHO_CANT_CUYES, ROC_TECHO_CANT_CONEJOS, ROC_TECHO_TEXT_OTROS, ROC_TECHO_CANT_OTROS, ROC_PATIO_CANT_PERROS, ROC_PATIO_CANT_GATOS, ROC_PATIO_CANT_AVES_CORRAL, ROC_PATIO_CANT_CUYES, ROC_PATIO_CANT_CONEJOS, ROC_PATIO_TEXT_OTROS, ROC_PATIO_CANT_OTROS, ROC_CANT_INSECTICIDA, ROC_SUPERFICIE_TRATADA, ROC_OBSERVACIONES FROM ROCIADOS WHERE ROC_FECHA >= (?)', [cutoff], (err, rows, fields) => {
             res.json(rows);
         });
     }catch (error) {
@@ -34,6 +34,8 @@ exports.InsertRociado = async (req, res) => {
         roc_fecha,
         roc_tratamiento_residual,
         roc_deshabitada_rociada,
+        roc_colindante,
+        roc_colindante_insp,
         roc_nombre_rociador,
         roc_nombre_insecticida,
         roc_jefe_familia,
@@ -73,6 +75,8 @@ exports.InsertRociado = async (req, res) => {
         ROC_FECHA: roc_fecha,
         ROC_TRATAMIENTO_RESIDUAL: roc_tratamiento_residual,
         ROC_DESHABITADA_ROCIADA: roc_deshabitada_rociada,
+        ROC_COLINDANTE: roc_colindante,
+        ROC_COLINDANTE_INSP: roc_colindante_insp,
         ROC_NOMBRE_ROCIADOR: roc_nombre_rociador,
         ROC_NOMBRE_INSECTICIDA: roc_nombre_insecticida,
         ROC_JEFE_FAMILIA: roc_jefe_familia,
@@ -106,7 +110,7 @@ exports.InsertRociado = async (req, res) => {
     }
 
     const query = `CALL RociadosAdd("${usu_cuenta}", "${usu_microred}", "${roc_unicode}", "${roc_fecha}", "${roc_tratamiento_residual}", 
-                                    "${roc_deshabitada_rociada}", "${roc_nombre_rociador}", "${roc_nombre_insecticida}", 
+                                    "${roc_deshabitada_rociada}", "${roc_colindante}", "${roc_colindante_insp}","${roc_nombre_rociador}", "${roc_nombre_insecticida}", 
                                     "${roc_jefe_familia}", "${roc_cant_personas}", "${roc_intra_cant_ambientes}", 
                                     "${roc_intra_ambientes_cerrados}", "${roc_intra_material_predominante}", "${roc_intra_grietas}", 
                                     "${roc_intra_cant_capturados}", "${roc_peri_cant_ambientes}", "${roc_peri_material_predominante}", 
