@@ -3,6 +3,25 @@ const router = express.Router();
 
 const mysqlConnection  = require('../config/database.js');
 
+//Obtener denuncias por microred
+exports.GetDenunciationsMicrored = async (req, res) => {
+  const { USU_MICRORED } = req.params;
+  
+  try {
+    await mysqlConnection.query('SELECT * FROM DENUNCIAS WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
+        if(!err) {
+          res.json(rows);
+        } else {
+          console.log("Error al realizar la consulta en denuncias mysql: "+err);
+          res.status(400).send('Hubo un error al realizar la consulta mysql a la tabla DENUNCIAS');
+        }
+      });
+  } catch (error) {
+      console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+      res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+  }  
+}
+
 //Obtener todas las denuncias
 exports.GetDenunciations = async (req, res) => {
 	try {
@@ -168,23 +187,4 @@ exports.EditDenunciation = async (req, res) => {
 	  console.log(error+' Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
     res.status(400).send('Hubo un error al consultar ACTUALIZAR datos de la tabla DENUNCIAS');
   }
-}
-
-//Crear ID CUSTOM denuncias
-exports.GetDenunciationsMicrored = async (req, res) => {
-  const { USU_MICRORED } = req.params;
-  
-  try {
-    await mysqlConnection.query('SELECT * FROM DENUNCIAS WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
-        if(!err) {
-          res.json(rows);
-        } else {
-          console.log("Error al realizar la consulta mysql: "+err);
-          res.status(400).send('Hubo un error al realizar la consulta mysql a la tabla DENUNCIAS');
-        }
-      });
-  } catch (error) {
-      console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
-      res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
-  }  
 }

@@ -11,4 +11,7 @@ router.get('/', inspectionsController.GetInspections);
 // INSERTAR DENUNCIAS
 router.post('/', inspectionsController.InsertInspection);
 
+//Obtener denuncias por microred
+router.post('/:USU_MICRORED', inspectionsController.GetInspectionsMicrored);
+
 module.exports = router;

@@ -3,6 +3,25 @@ const router = express.Router();
 
 const mysqlConnection  = require('../config/database.js');
 
+//Obtener denuncias por microred
+exports.GetInspectionsMicrored = async (req, res) => {
+  const { USU_MICRORED } = req.params;
+  
+  try {
+    await mysqlConnection.query('SELECT USER_NAME, USU_MICRORED, DEN_ID_CUSTOM, INSP_DEN_COLIN, UNICODE, OBS_UNICODE, OBS_TEXT, FECHA, CARACT_PREDIO, TIPO_LP, STATUS_INSPECCION, ENTREVISTA, MOTIVO_VOLVER, FECHA_VOLVER, RENUENTE, INSP_HABITANTE_TELEFONO, INTRA_INSPECCION, INTRA_CHIRIS, INTRA_RASTROS, PERI_INSPECCION, PERI_CHIRIS, PERI_RASTROS, PERSONAS_PREDIO, CANT_PERROS, CANT_GATOS, CANT_AVES_CORRAL, CANT_CUYES, CANT_CONEJOS, TEXT_OTROS, CANT_OTROS FROM INSPECCIONES WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
+        if(!err) {
+          res.json(rows);
+        } else {
+          console.log("Error al realizar la consulta en inspecciones mysql: "+err);
+          res.status(400).send('Hubo un error al realizar la consulta mysql a la tabla INSPECCIONES');
+        }
+      });
+  } catch (error) {
+      console.log(error+' Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+      res.status(400).send('Hubo un error al consultar OBTENER datos de la tabla DENUNCIAS');
+  }  
+}
+
 //Obtener todas las inspecciones
 exports.GetInspections = async (req, res) => {
     //Obteniendo solo visitas desde cutoff
