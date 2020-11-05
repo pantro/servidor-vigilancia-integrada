@@ -19,6 +19,7 @@ app.use('/api/inspecciones', require('./routes/inspections'));
 app.use('/api/acceder', require('./routes/authentication'));
 app.use('/api/visitas-app', require('./routes/visitsApp'));
 app.use('/api/rociados', require('./routes/rociados'));
+app.use('/api/publicidades', require('./routes/publicities'));
 
 // Starting the server
 app.listen(app.get('port'), '0.0.0.0', () => {
