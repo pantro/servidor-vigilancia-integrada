@@ -48,8 +48,7 @@ exports.InsertDenunciation = async (req, res) => {
     den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion, 
     den_unicode, den_cant_colindantes, den_estado
   } = req.body;
-  var result = {};
-
+  
   const query = `
     SET @DEN_ID = ?;
     SET @DEN_ID_CUSTOM = ?;
@@ -88,12 +87,13 @@ exports.InsertDenunciation = async (req, res) => {
 	        den_habitante_telefono1, den_otro_telefono, den_habitante_telefono2, den_provincia, den_distrito,
 	        den_localidad, den_direccion, den_referencia, den_fecha_probable_inspeccion,
           den_unicode, den_cant_colindantes, den_estado], (err, rows, fields) => {
+      var result = {};
 	    if(!err) {
         result.option ='successful';
 	    } else {
         result.option ='error';
         result.msg ="Error posible en mysql"
-	      console.log("Error:"+err);
+	      console.log("Se produjo un "+err);
 	    }
       res.json(result);
 	  });
