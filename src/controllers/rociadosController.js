@@ -12,7 +12,7 @@ exports.GetRociados = async (req, res) => {
     console.log("cutoff: "+cutoff);
 
     try {
-        await mysqlConection.query('SELECT USU_CUENTA, USU_MICRORED, UNICODE, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA, ROC_COLINDANTE, ROC_COLINDANTE_INSP, ROC_NOMBRE_ROCIADOR, ROC_NOMBRE_INSECTICIDA, ROC_JEFE_FAMILIA, ROC_CANT_PERSONAS, ROC_INTRA_CANT_AMBIENTES, ROC_INTRA_AMBIENTES_CERRADOS, ROC_INTRA_MATERIAL_PREDOMINANTE, ROC_INTRA_GRIETAS, ROC_INTRA_CANT_CAPTURADOS, ROC_PERI_CANT_AMBIENTES, ROC_PERI_MATERIAL_PREDOMINANTE, ROC_PERI_GRIETAS, ROC_PERI_CANT_CAPTURADOS, ROC_TECHO_CANT_PERROS, ROC_TECHO_CANT_GATOS, ROC_TECHO_CANT_AVES_CORRAL, ROC_TECHO_CANT_CUYES, ROC_TECHO_CANT_CONEJOS, ROC_TECHO_TEXT_OTROS, ROC_TECHO_CANT_OTROS, ROC_PATIO_CANT_PERROS, ROC_PATIO_CANT_GATOS, ROC_PATIO_CANT_AVES_CORRAL, ROC_PATIO_CANT_CUYES, ROC_PATIO_CANT_CONEJOS, ROC_PATIO_TEXT_OTROS, ROC_PATIO_CANT_OTROS, ROC_CANT_INSECTICIDA, ROC_SUPERFICIE_TRATADA, ROC_OBSERVACIONES FROM ROCIADOS WHERE ROC_FECHA >= (?)', [cutoff], (err, rows, fields) => {
+        await mysqlConection.query('SELECT USU_CUENTA, USU_MICRORED, UNICODE, ROC_FECHA, ROC_TRATAMIENTO_RESIDUAL, ROC_DESHABITADA_ROCIADA, ROC_COLINDANTE, ROC_COLINDANTE_INSP, ROC_NOMBRE_ROCIADOR, ROC_NOMBRE_INSECTICIDA, ROC_JEFE_FAMILIA, ROC_CANT_PERSONAS, ROC_INTRA_CANT_AMBIENTES, ROC_INTRA_AMBIENTES_CERRADOS, ROC_INTRA_MATERIAL_PREDOMINANTE, ROC_INTRA_GRIETAS, ROC_INTRA_CANT_CAPTURADOS, ROC_PERI_CANT_AMBIENTES, ROC_PERI_MATERIAL_PREDOMINANTE, ROC_PERI_GRIETAS, ROC_PERI_CANT_CAPTURADOS, ROC_TECHO_CANT_PERROS, ROC_TECHO_CANT_GATOS, ROC_TECHO_CANT_AVES_CORRAL, ROC_TECHO_CANT_CUYES, ROC_TECHO_CANT_CONEJOS, ROC_TECHO_TEXT_OTROS, ROC_TECHO_CANT_OTROS, ROC_PATIO_CANT_PERROS, ROC_PATIO_CANT_GATOS, ROC_PATIO_CANT_AVES_CORRAL, ROC_PATIO_CANT_CUYES, ROC_PATIO_CANT_CONEJOS, ROC_PATIO_TEXT_OTROS, ROC_PATIO_CANT_OTROS, ROC_INTRA_CANT_PERROS, ROC_INTRA_CANT_GATOS, ROC_INTRA_CANT_AVES_CORRAL, ROC_INTRA_CANT_CUYES, ROC_INTRA_CANT_CONEJOS, ROC_INTRA_TEXT_OTROS, ROC_INTRA_CANT_OTROS, ROC_CANT_INSECTICIDA, ROC_SUPERFICIE_TRATADA, ROC_OBSERVACIONES FROM ROCIADOS WHERE ROC_FECHA >= (?)', [cutoff], (err, rows, fields) => {
             res.json(rows);
         });
     }catch (error) {
@@ -63,6 +63,13 @@ exports.InsertRociado = async (req, res) => {
         roc_patio_cant_conejos,
         roc_patio_text_otros,
         roc_patio_cant_otros,
+        roc_intra_cant_perros,
+        roc_intra_cant_gatos,
+        roc_intra_cant_aves_corral,
+        roc_intra_cant_cuyes,
+        roc_intra_cant_conejos,
+        roc_intra_text_otros,
+        roc_intra_cant_otros,
         roc_cant_insecticida,
         roc_superficie_tratada,
         roc_observaciones_text
@@ -104,6 +111,13 @@ exports.InsertRociado = async (req, res) => {
         ROC_PATIO_CANT_CONEJOS: roc_patio_cant_conejos,
         ROC_PATIO_TEXT_OTROS: roc_patio_text_otros,
         ROC_PATIO_CANT_OTROS: roc_patio_cant_otros,
+        ROC_INTRA_CANT_PERROS: roc_intra_cant_perros,
+        ROC_INTRA_CANT_GATOS: roc_intra_cant_gatos,
+        ROC_INTRA_CANT_AVES_CORRAL: roc_intra_cant_aves_corral,
+        ROC_INTRA_CANT_CUYES: roc_intra_cant_cuyes,
+        ROC_INTRA_CANT_CONEJOS: roc_intra_cant_conejos,
+        ROC_INTRA_TEXT_OTROS: roc_intra_text_otros,
+        ROC_INTRA_CANT_OTROS: roc_intra_cant_otros,
         ROC_CANT_INSECTICIDA: roc_cant_insecticida,
         ROC_SUPERFICIE_TRATADA: roc_superficie_tratada,
         ROC_OBSERVACIONES: roc_observaciones_text
@@ -118,7 +132,8 @@ exports.InsertRociado = async (req, res) => {
                                     "${roc_techo_cant_aves_corral}", "${roc_techo_cant_cuyes}", "${roc_techo_cant_conejos}", "${roc_techo_text_otros}",
                                     "${roc_techo_cant_otros}", "${roc_patio_cant_perros}", "${roc_patio_cant_gatos}", "${roc_patio_cant_aves_corral}", 
                                     "${roc_patio_cant_cuyes}", "${roc_patio_cant_conejos}", "${roc_patio_text_otros}", "${roc_patio_cant_otros}", 
-                                    "${roc_cant_insecticida}", "${roc_superficie_tratada}", "${roc_observaciones_text}");
+                                    "${roc_intra_cant_perros}", "${roc_intra_cant_gatos}", "${roc_intra_cant_aves_corral}", "${roc_intra_cant_cuyes}",
+                                    "${roc_intra_cant_conejos}", "${roc_intra_text_otros}", "${roc_intra_cant_otros}", "${roc_cant_insecticida}", "${roc_superficie_tratada}", "${roc_observaciones_text}");
                     `;
 
     try {
