@@ -8,7 +8,7 @@ exports.GetInspectionsMicrored = async (req, res) => {
   const { USU_MICRORED } = req.params;
   
   try {
-    await mysqlConnection.query('SELECT USER_NAME, USU_MICRORED, DEN_ID_CUSTOM, INSP_DEN_COLIN, UNICODE, OBS_UNICODE, OBS_TEXT, FECHA, CARACT_PREDIO, TIPO_LP, STATUS_INSPECCION, ENTREVISTA, MOTIVO_VOLVER, FECHA_VOLVER, RENUENTE, INSP_HABITANTE_TELEFONO, INTRA_INSPECCION, INTRA_CHIRIS, INTRA_RASTROS, PERI_INSPECCION, PERI_CHIRIS, PERI_RASTROS, PERSONAS_PREDIO, CANT_PERROS, CANT_GATOS, CANT_AVES_CORRAL, CANT_CUYES, CANT_CONEJOS, TEXT_OTROS, CANT_OTROS FROM INSPECCIONES WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
+    await mysqlConnection.query('SELECT USER_NAME, USU_MICRORED, DEN_ID_CUSTOM, INSP_DEN_COLIN, UNICODE, OBS_UNICODE, OBS_TEXT, FECHA, CARACT_PREDIO, TIPO_LP, STATUS_INSPECCION, ENTREVISTA, MOTIVO_VOLVER, FECHA_VOLVER, RENUENTE, INSP_HABITANTE_TELEFONO, INTRA_INSPECCION, INTRA_CHIRIS, INTRA_RASTROS, PERI_INSPECCION, PERI_CHIRIS, PERI_RASTROS, PERSONAS_PREDIO, CANT_PERROS, CANT_GATOS, CANT_AVES_CORRAL, CANT_CUYES, CANT_CONEJOS, TEXT_OTROS, CANT_OTROS, LAT, LNG FROM INSPECCIONES WHERE USU_MICRORED = ?', [USU_MICRORED], (err, rows, fields) => {
         if(!err) {
           res.json(rows);
         } else {
@@ -34,7 +34,7 @@ exports.GetInspections = async (req, res) => {
     try {
         //Se jala todos los datos que existen en la base de datos de hace un año atras
 		//await mysqlConnection.query('SELECT UNICODE, FECHA, STATUS_INSPECCION, INTRA_CHIRIS, PERI_CHIRIS FROM INSPECCIONES WHERE FECHA >= (?)', [cutoff], (err, rows, fields) => {
-        await mysqlConnection.query('SELECT USER_NAME, USU_MICRORED, DEN_ID_CUSTOM, INSP_DEN_COLIN, UNICODE, OBS_UNICODE, OBS_TEXT, FECHA, CARACT_PREDIO, TIPO_LP, STATUS_INSPECCION, ENTREVISTA, MOTIVO_VOLVER, FECHA_VOLVER, RENUENTE, INSP_HABITANTE_TELEFONO, INTRA_INSPECCION, INTRA_CHIRIS, INTRA_RASTROS, PERI_INSPECCION, PERI_CHIRIS, PERI_RASTROS, PERSONAS_PREDIO, CANT_PERROS, CANT_GATOS, CANT_AVES_CORRAL, CANT_CUYES, CANT_CONEJOS, TEXT_OTROS, CANT_OTROS FROM INSPECCIONES WHERE FECHA >= (?)', [cutoff], (err, rows, fields) => {
+        await mysqlConnection.query('SELECT USER_NAME, USU_MICRORED, DEN_ID_CUSTOM, INSP_DEN_COLIN, UNICODE, OBS_UNICODE, OBS_TEXT, FECHA, CARACT_PREDIO, TIPO_LP, STATUS_INSPECCION, ENTREVISTA, MOTIVO_VOLVER, FECHA_VOLVER, RENUENTE, INSP_HABITANTE_TELEFONO, INTRA_INSPECCION, INTRA_CHIRIS, INTRA_RASTROS, PERI_INSPECCION, PERI_CHIRIS, PERI_RASTROS, PERSONAS_PREDIO, CANT_PERROS, CANT_GATOS, CANT_AVES_CORRAL, CANT_CUYES, CANT_CONEJOS, TEXT_OTROS, CANT_OTROS, LAT, LNG, UNICODE_BASE FROM INSPECCIONES WHERE FECHA >= (?)', [cutoff], (err, rows, fields) => {
             res.json(rows);
   		});
 	} catch (error) {
@@ -80,7 +80,10 @@ exports.InsertInspection = async (req, res) => {
     text_otros,
     cant_otros,
     hora_inicio,
-    hora_fin
+    hora_fin,
+    lat,
+    lng,
+    unicode_base
   } = req.body;
   
   const newData = {
@@ -127,11 +130,14 @@ exports.InsertInspection = async (req, res) => {
     SET @CANT_OTROS = ?;
     SET @HORA_INICIO = ?;
     SET @HORA_FIN = ?;
+    SET @LAT = ?;
+    SET @LNG = ?;
+    SET @UNICODE_BASE = ?;
     CALL inspectionAdd(@USER_NAME, @USU_MICRORED, @DEN_ID_CUSTOM, @DEN_CANT_COLINDANTES, @INSP_DEN_COLIN, @UNICODE, @CODE_LOCALITY, @OBS_UNICODE, @OBS_TEXT, 
                        @FECHA, @CARACT_PREDIO, @TIPO_LP, @STATUS_INSPECCION, @ENTREVISTA, @MOTIVO_VOLVER, 
                        @FECHA_VOLVER, @RENUENTE, @INSP_HABITANTE_TELEFONO, @INTRA_INSPECCION, @INTRA_CHIRIS, @INTRA_RASTROS, @PERI_INSPECCION,
                        @PERI_CHIRIS, @PERI_RASTROS, @PERSONAS_PREDIO, @CANT_PERROS, @CANT_GATOS, @CANT_AVES_CORRAL,
-                       @CANT_CUYES, @CANT_CONEJOS, @TEXT_OTROS, @CANT_OTROS, @HORA_INICIO, @HORA_FIN);
+                       @CANT_CUYES, @CANT_CONEJOS, @TEXT_OTROS, @CANT_OTROS, @HORA_INICIO, @HORA_FIN, @LAT, @LNG, @UNICODE_BASE);
   `;
 
   	try {
@@ -139,7 +145,7 @@ exports.InsertInspection = async (req, res) => {
                         obs_text, fecha, caract_predio, tipo_lp, status_inspeccion, entrevista, motivo_volver,
                         fecha_volver, renuente, insp_habitante_telefono, intra_inspeccion, intra_chiris, intra_rastros, peri_inspeccion,
                         peri_chiris, peri_rastros, personas_predio, cant_perros, cant_gatos, cant_aves_corral,
-                        cant_cuyes, cant_conejos, text_otros, cant_otros, hora_inicio, hora_fin], (err, rows, fields) => {
+                        cant_cuyes, cant_conejos, text_otros, cant_otros, hora_inicio, hora_fin, lat, lng, unicode_base], (err, rows, fields) => {
         	    res.json(newData);
         	});
 
