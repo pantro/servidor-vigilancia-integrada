@@ -25,7 +25,7 @@ exports.GetInspectionsMicrored = async (req, res) => {
 //Obtener todas las inspecciones
 exports.GetInspections = async (req, res) => {
     //Obteniendo solo visitas desde cutoff
-    const reduceDays = (24*60*60*1000) * 365;
+    const reduceDays = (24*60*60*1000) * 730;
     const currentDate = new Date();
     const cutoff = DateFull(new Date(currentDate -  reduceDays));
     console.log("cutoff: "+cutoff);
