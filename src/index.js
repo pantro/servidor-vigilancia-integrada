@@ -16,6 +16,7 @@ app.set('port', process.env.PORT || 3000);
 // Routes
 app.use('/api/denuncias', require('./routes/denunciations'));
 app.use('/api/inspecciones', require('./routes/inspections'));
+app.use('/api/cimex', require('./routes/cimex'));
 app.use('/api/acceder', require('./routes/authentication'));
 app.use('/api/visitas-app', require('./routes/visitsApp'));
 app.use('/api/rociados', require('./routes/rociados'));
