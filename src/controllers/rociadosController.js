@@ -148,6 +148,48 @@ exports.InsertRociado = async (req, res) => {
     }
 }
 
+//Obtener rociados programados
+exports.GetRociadosProg = async (req, res) => {
+    try {
+        await mysqlConection.query('SELECT ROC_UNICODE FROM ROCIADOS_PROGRAMADOS', (err, rows, fields) => {
+            res.json(rows);
+        });
+    }catch (error) {
+        console.log(error+ 'Hubo un error al obtener datos de la tabla ROCIADOS_PROGRAMADOS');
+        res.status(400).send('Hubo un error al obtener datos de la tabla ROCIADOS_PROGRAMADOS');
+    }
+}
+
+
+exports.InsertRociadoProg = async (req, res) => {
+    console.log("LLEGO HASTA ROCIADOS");
+    console.log(req.body);
+
+    const {
+        rociadoProgramado
+    } = req.body;
+
+    const respuesta = {
+        ROC_UNICODE: rociadoProgramado
+    }
+
+    console.log(rociadoProgramado);
+
+    const query = `CALL RociadosProgAdd("${rociadoProgramado}");`;
+
+    try {
+
+        console.log(query);
+        await mysqlConection.query(query, (err, rows, fields) => {
+            res.json(respuesta);
+        });
+        
+    } catch (error) {
+        console.log(error+' Hubo un error al INSERTAR datos en la tabla ROCIADOS');
+        res.status(400).send('Hubo un error al INSERTAR datos en la tabla ROCIADOS');
+    }
+}
+
 //Funcion para obtener la fecha en el formato yyyy-mm-dd
 const DateFull = ( date ) => {
     const year = date.getFullYear();
