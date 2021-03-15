@@ -81,6 +81,7 @@ exports.InsertInspection = async (req, res) => {
     cant_otros,
     hora_inicio,
     hora_fin,
+    risk_color,
     lat,
     lng,
     unicode_base
@@ -130,6 +131,7 @@ exports.InsertInspection = async (req, res) => {
     SET @CANT_OTROS = ?;
     SET @HORA_INICIO = ?;
     SET @HORA_FIN = ?;
+    SET @RISK_COLOR = ?;
     SET @LAT = ?;
     SET @LNG = ?;
     SET @UNICODE_BASE = ?;
@@ -137,7 +139,7 @@ exports.InsertInspection = async (req, res) => {
                        @FECHA, @CARACT_PREDIO, @TIPO_LP, @STATUS_INSPECCION, @ENTREVISTA, @MOTIVO_VOLVER, 
                        @FECHA_VOLVER, @RENUENTE, @INSP_HABITANTE_TELEFONO, @INTRA_INSPECCION, @INTRA_CHIRIS, @INTRA_RASTROS, @PERI_INSPECCION,
                        @PERI_CHIRIS, @PERI_RASTROS, @PERSONAS_PREDIO, @CANT_PERROS, @CANT_GATOS, @CANT_AVES_CORRAL,
-                       @CANT_CUYES, @CANT_CONEJOS, @TEXT_OTROS, @CANT_OTROS, @HORA_INICIO, @HORA_FIN, @LAT, @LNG, @UNICODE_BASE);
+                       @CANT_CUYES, @CANT_CONEJOS, @TEXT_OTROS, @CANT_OTROS, @HORA_INICIO, @HORA_FIN, @RISK_COLOR, @LAT, @LNG, @UNICODE_BASE);
   `;
 
   	try {
@@ -145,7 +147,7 @@ exports.InsertInspection = async (req, res) => {
                         obs_text, fecha, caract_predio, tipo_lp, status_inspeccion, entrevista, motivo_volver,
                         fecha_volver, renuente, insp_habitante_telefono, intra_inspeccion, intra_chiris, intra_rastros, peri_inspeccion,
                         peri_chiris, peri_rastros, personas_predio, cant_perros, cant_gatos, cant_aves_corral,
-                        cant_cuyes, cant_conejos, text_otros, cant_otros, hora_inicio, hora_fin, lat, lng, unicode_base], (err, rows, fields) => {
+                        cant_cuyes, cant_conejos, text_otros, cant_otros, hora_inicio, hora_fin, risk_color, lat, lng, unicode_base], (err, rows, fields) => {
         	    res.json(newData);
         	});
 
