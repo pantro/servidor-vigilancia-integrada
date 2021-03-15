@@ -47,7 +47,7 @@ exports.LoginAuthentication = async (req, res) => {
                 delete usuario[0].USU_ID
                 delete usuario[0].USU_CONTRASENIA
                 delete usuario[0].USU_NOMBRES
-                delete usuario[0].USU_PRIVILEGIOS
+                //delete usuario[0].USU_PRIVILEGIOS
                 //Enviando datos a front
                 res.json(usuario[0]);
             });
